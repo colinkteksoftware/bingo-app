@@ -1,4 +1,4 @@
-import 'package:animated_button/animated_button.dart';
+import 'package:bingo/utils/colores.dart';
 import 'package:flutter/material.dart';
 
 class BingoActionsWidget extends StatelessWidget {
@@ -22,54 +22,82 @@ class BingoActionsWidget extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        _buildAnimatedButton(
+        _buildActionCard(
           size,
-          "Payment",
-          onPaymentPressed,
-          "Pago",
+          icon: Icons.payments_rounded,
+          label: "Pago",
+          onPressed: onPaymentPressed,
         ),
-        _buildAnimatedButton(
+        _buildActionCard(
           size,
-          "Ventas",
-          onSalesPressed,
-          "Ventas",
+          icon: Icons.confirmation_number_rounded,
+          label: "Ventas",
+          onPressed: onSalesPressed,
         ),
-        _buildAnimatedButton(
+        _buildActionCard(
           size,
-          "UVT",
-          onUvtPressed,
-          "UVT",
+          icon: Icons.calculate_rounded,
+          label: "UVT",
+          onPressed: onUvtPressed,
         ),
-        _buildAnimatedButton(
+        _buildActionCard(
           size,
-          "Clientes",
-          onCustomerPressed,
-          "Clientes",
+          icon: Icons.people_alt_rounded,
+          label: "Clientes",
+          onPressed: onCustomerPressed,
         ),
       ],
     );
   }
 
-  Widget _buildAnimatedButton(
-    Size size,
-    String buttonText,
-    Function() onPressed,
-    String textLabel,
-  ) {
-    return AnimatedButton(
-      color: const Color(0xFF03045e),
-      height: size.height * 0.05,
-      width: size.width * 0.16,
-      duration: 2,
-      onPressed: onPressed,
-      child: Center(
-        child: Text(
-          textLabel,
-          style: TextStyle(
-            color: const Color(0xFFcaf0f8),
-            fontSize: size.width * 0.03,
-            fontFamily: 'gotic',
-            fontWeight: FontWeight.bold,
+  Widget _buildActionCard(
+    Size size, {
+    required IconData icon,
+    required String label,
+    required Function() onPressed,
+  }) {
+    final double cardSize = size.width * 0.19;
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(16),
+        onTap: onPressed,
+        child: Container(
+          width: cardSize,
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 6),
+          decoration: BoxDecoration(
+            color: superficieCard,
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: [
+              BoxShadow(
+                color: sombraCard,
+                blurRadius: 10,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: primaryBlue.withOpacity(0.08),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(icon, color: primaryBlue, size: cardSize * 0.28),
+              ),
+              const SizedBox(height: 6),
+              Text(
+                label,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: primaryBlue,
+                  fontSize: size.width * 0.028,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
           ),
         ),
       ),

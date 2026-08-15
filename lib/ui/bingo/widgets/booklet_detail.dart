@@ -200,8 +200,9 @@ class _BookletDetailPageState extends State<BookletDetailPage> {
                               showAlerta(context, 'Mensaje Informativo',
                                   'El bingo ya se ha finalizado');
                             } else {
-                              if ((provider.preciofinal == 0) &&
-                                  currentAditional != 1) {
+                              final hasSelectedBooklets = provider.infoBooklet
+                                  .any((booklet) => booklet.estado == true);
+                              if (!hasSelectedBooklets) {
                                 showAlerta(context, 'Mensaje Informativo',
                                     'Para ventas debes seleccionar una cartilla.');
                               } else {

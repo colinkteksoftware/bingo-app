@@ -1,14 +1,16 @@
-import 'dart:math';
+import 'dart:ui';
 import 'package:bingo/utils/colores.dart';
 import 'package:flutter/material.dart';
 
+/// Soft, professional backdrop: neutral gradient with blurred brand-color
+/// blobs, replacing the previous flat cyan/solid-rectangle look.
 class Background extends StatelessWidget {
   final boxDecoration = const BoxDecoration(
       gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          colors: [Colors.white, Colors.lightBlue],
-          stops: [0.3, 0.9]));
+          colors: [fondoGradientTop, fondoGradientBottom],
+          stops: [0.2, 1.0]));
 
   const Background({super.key});
 
@@ -19,25 +21,35 @@ class Background extends StatelessWidget {
         Container(
           decoration: boxDecoration,
         ),
-        const Positioned(
-          top: -130,
-          left: -15,
-          child: Column(
-            children: [
-              CustomBox(),
-            ],
-          ),
-        ),
-        const Positioned(
-          top: 340,
-          left: 105,
-          child: Column(
-            children: [
-              CustomBox2(),
-            ],
-          ),
-        ),
+        const Positioned(top: -130, left: -15, child: CustomBox()),
+        const Positioned(top: 340, left: 105, child: CustomBox2()),
       ],
+    );
+  }
+}
+
+/// Blurred circular accent blob; softer and more modern than a solid box.
+class _Blob extends StatelessWidget {
+  final double size;
+  final Color color;
+  final double opacity;
+
+  const _Blob({required this.size, required this.color, this.opacity = 0.28});
+
+  @override
+  Widget build(BuildContext context) {
+    return ImageFiltered(
+      imageFilter: ImageFilter.blur(sigmaX: 40, sigmaY: 40),
+      child: Container(
+        height: size,
+        width: size,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          gradient: RadialGradient(
+            colors: [color.withOpacity(opacity), color.withOpacity(0.0)],
+          ),
+        ),
+      ),
     );
   }
 }
@@ -47,18 +59,7 @@ class CustomBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Transform.rotate(
-      angle: -pi / 5,
-      child: Container(
-          height: 330,
-          width: 500,
-          decoration: BoxDecoration(
-              color: Colors.blue,
-              borderRadius: BorderRadius.circular(40),
-              gradient: LinearGradient(
-                  colors: [Colors.blue.shade300, Colors.white],
-                  stops: const [0.0, 0.8]))),
-    );
+    return const _Blob(size: 420, color: acentoNavy, opacity: 0.16);
   }
 }
 
@@ -67,18 +68,7 @@ class CustomBox2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Transform.rotate(
-      angle: 180 / pi,
-      child: Container(
-          height: 390,
-          width: 300,
-          decoration: BoxDecoration(
-              color: Colors.blue,
-              borderRadius: BorderRadius.circular(40),
-              gradient: LinearGradient(
-                  colors: [Colors.blue.shade300, Colors.white],
-                  stops: const [0.0, 0.8]))),
-    );
+    return const _Blob(size: 340, color: acentoTeal, opacity: 0.20);
   }
 }
 
@@ -87,18 +77,7 @@ class CustomBox3 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Transform.rotate(
-      angle: -pi / 5,
-      child: Container(
-          height: 330,
-          width: 500,
-          decoration: BoxDecoration(
-              color: primaryBlue,
-              borderRadius: BorderRadius.circular(40),
-              gradient: const LinearGradient(
-                  colors: [Color(0xFFcaf0f8), Color(0xFF0077b6)],
-                  stops: [0.0, 0.8]))),
-    );
+    return const _Blob(size: 420, color: acentoNavy, opacity: 0.22);
   }
 }
 
@@ -107,17 +86,6 @@ class CustomBox4 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Transform.rotate(
-      angle: 180 / pi,
-      child: Container(
-          height: 390,
-          width: 300,
-          decoration: BoxDecoration(
-              color: primaryBlue,
-              borderRadius: BorderRadius.circular(40),
-              gradient: const LinearGradient(
-                  colors: [Color(0xFFcaf0f8), Color(0xFF0077b6)],
-                  stops: [0.0, 0.8]))),
-    );
+    return const _Blob(size: 340, color: acentoDorado, opacity: 0.18);
   }
 }

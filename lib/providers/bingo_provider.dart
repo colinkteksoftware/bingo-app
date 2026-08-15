@@ -321,8 +321,7 @@ class BingoProvider with ChangeNotifier {
     sale.codigoModulo = qrcode;
     final int effectiveAditional = forcedAditional ?? _aditional;
     final int effectiveCounter = (forcedCounter ?? _counter) < 1 ? 1 : (forcedCounter ?? _counter);
-    final bool canApplyProgresivo = !isPremioDiferidoGame;
-    final bool isProgressiveSale = effectiveAditional == 2 && canApplyProgresivo;
+    final bool isProgressiveSale = effectiveAditional == 2;
 
     sale.multiplicado = isProgressiveSale ? effectiveCounter : 0;
     sale.tipo = isProgressiveSale ? 3 : (effectiveAditional == 1 ? 2 : 1);
@@ -465,38 +464,19 @@ class BingoProvider with ChangeNotifier {
   }
 
   void calculeTotal() {
-    double precio = 0;
-    double total = 0.0;
-    final bool canApplyProgresivo = !isPremioDiferidoGame;
+    final double precio = bingo.precioPorCartilla ?? 0;
+    final int cartillasSeleccionadas =
+        infoBooklet.where((booklet) => booklet.estado == true).length;
+    final double totalModulo = precio * cartillasSeleccionadas;
     switch (_aditional) {
       case 0:
-        //print('lista de cartillas => $infoBooklet');
-        for (var booklet in infoBooklet) {
-          if (booklet.estado == true) {
-            precio = bingo.precioPorCartilla ?? 0;
-            total = total + precio;
-          }
-        }
-        _preciofinal = double.parse(total.toStringAsFixed(2)).toInt();
-        //print('precio => $precio');
-        //print('total => $total');
+        _preciofinal = totalModulo.round();
+        break;
+      case 1:
+        _preciofinal = 0;
         break;
       case 2:
-        for (var booklet in infoBooklet) {
-          if (booklet.estado == true) {
-            precio = bingo.precioPorCartilla ?? 0;
-            if (canApplyProgresivo) {
-              total = total + (precio * (_counter + 1));
-            } else {
-              total = total + precio;
-            }
-            //print('total con cartilla${booklet.cartillaId} => $total');
-          }
-        }
-        _preciofinal = double.parse(total.toStringAsFixed(2)).toInt();
-        /*print('precio => $precio');
-        print('total => $total');
-        print('multiplicado => $_counter');*/
+        _preciofinal = (totalModulo * (_counter + 1)).round();
         break;
       default:
         _preciofinal = 0;

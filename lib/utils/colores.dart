@@ -28,3 +28,12 @@ const fieldColor = Color(0xFF1C1C1E);
 const darkHint = Color(0xFF888888);
 
 const primaryBlue = Color(0xFF03045e);
+
+// Refined professional gradient/backdrop palette
+const fondoGradientTop = Color(0xFFF3F6FB);
+const fondoGradientBottom = Color(0xFFE3E9F2);
+const acentoNavy = Color(0xFF03045e);
+const acentoTeal = Color(0xFF0F797E);
+const acentoDorado = Color(0xFFE8A93B);
+const superficieCard = Color(0xFFFFFFFF);
+const sombraCard = Color(0x1A03045E);

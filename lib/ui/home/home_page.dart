@@ -78,7 +78,7 @@ class _HomePageState extends State<HomePage> {
       gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          colors: [Color(0xFFcaf0f8), Color(0xFF00b4d8)],
+          colors: [fondoGradientTop, fondoGradientBottom],
           stops: [0.3, 0.9]));
 
   @override
